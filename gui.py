@@ -11,7 +11,8 @@ edit_button = sg.Button("  Edit  ",key="edit_button")
 
 
 window = sg.Window('My To-Do App',
-                   layout=[[label],
+                   layout=[
+                       [label],
                            [input_box, add_button],
                            [label2],
                            [edit_input],
@@ -34,7 +35,7 @@ while True:
             todos.append(new_todo)
 
             functions.write_todos(todos)
-            print("Todo Added Succesfully!")
+            print(f"Todo: {new_todo}Status: Added succesfully!")
             window['todos'].update(values=todos)
             window['todo'].update(value="")
             

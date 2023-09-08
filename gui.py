@@ -1,8 +1,13 @@
 import functions
 import PySimpleGUI as sg
 import time
+import os
 
-sg.theme("DarkBlack")
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", "w") as file:
+        pass
+
+sg.theme("DarkBlack")   
 clock = sg.Text("", key="clock")
 label = sg.Text("Type in a to-do")
 input_box = sg.InputText(tooltip="Enter a todo", key="todo")
@@ -21,18 +26,20 @@ window = sg.Window('My To-Do App',
                            [label2],
                            [edit_input],
                            [list_box, [edit_button, complete_button]],
-                           [exit_button]
-                           ],
+                           [exit_button]],
                    font=('Helvetica', 10)
                    )
 
 while True:
     event, values = window.read(timeout=10)
-    window["clock"].update(value=time.strftime("%b %d, %Y %H : %M : %S"))
+    window["clock"].update(value=time.strftime("%b %d, %Y Time: %H : %M : %S"))
    
     match event:
         case 'todos':
-            window['todo_to_edit'].update(value=values['todos'][0])
+            try:
+                window['todo_to_edit'].update(value=values['todos'][0])
+            except IndexError:
+                print("No items!")
             
         case "add_button":
             todos = functions.get_todos()
@@ -74,7 +81,7 @@ while True:
                 sg.popup("Please select an item first to complete.")
                 window['todo_to_edit'].update(value="")
 
-  
+
         case "exit_button":
             break
 
